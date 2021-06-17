@@ -16,6 +16,7 @@ use App\Http\Controllers\API\CallbackController;
 */
 
 
+Route::get('callback', [CallbackController::class, 'index']);
 Route::post('callback', [CallbackController::class, 'store']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

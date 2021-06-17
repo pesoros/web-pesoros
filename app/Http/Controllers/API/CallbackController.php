@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class CallbackController extends Controller
 {
+    public function index(Request $request)
+    {
+        return response()->json([
+            'success' => true,
+            'message' => 'no data saved',
+            'response' => $request
+        ], 200);
+    }
     public function store(Request $request)
     {
         return response()->json([
