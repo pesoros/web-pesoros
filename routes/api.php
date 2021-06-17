@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CallbackCon;
+use App\Http\Controllers\API\CallbackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +16,7 @@ use App\Http\Controllers\CallbackCon;
 */
 
 
-Route::post('callback', [CallbackCon::class, 'store']);
+Route::post('callback', [CallbackController::class, 'store']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
