@@ -4,8 +4,56 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a16c3c541bd99241cab1c21ce8e83ac",
+    "content-hash": "2ce9eb1c28e78551de8f725bd4b0497d",
     "packages": [
+        {
+            "name": "appolous/lazada-php-sdk",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/appolous/lazada-php-sdk.git",
+                "reference": "c29dfd9b6114934bea6f6476d6ee97a8c61bb082"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/appolous/lazada-php-sdk/zipball/c29dfd9b6114934bea6f6476d6ee97a8c61bb082",
+                "reference": "c29dfd9b6114934bea6f6476d6ee97a8c61bb082",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.0",
+                "php": "^7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Lazada\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Appolous Team",
+                    "email": "hello@appolous.com",
+                    "homepage": "https://www.appolous.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Lazada PHP SDK for Laravel",
+            "homepage": "https://github.com/appolous/lazada-php-sdk",
+            "keywords": [
+                "Lazada",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/appolous/lazada-php-sdk/issues",
+                "source": "https://github.com/appolous/lazada-php-sdk/tree/1.0"
+            },
+            "time": "2020-11-16T11:35:58+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "v2.0.3",
