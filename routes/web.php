@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ijcController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +24,5 @@ Route::get('/', function () {
 Route::get('/landingpage', function () {
     return view('landingpage');
 });
+
+Route::get('ijc', [ijcController::class, 'index']);

@@ -20,8 +20,8 @@ use App\Http\Controllers\API\LazopController;
 Route::get('callback', [CallbackController::class, 'index']);
 Route::post('callback', [CallbackController::class, 'store']);
 Route::get('seller', [LazopController::class, 'get_seller']);
-Route::get('product', [LazopController::class, 'get_product']);
-Route::get('transaction', [LazopController::class, 'get_transaction']);
+Route::get('products', [LazopController::class, 'get_product']);
+Route::get('transactions', [LazopController::class, 'get_transaction']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
