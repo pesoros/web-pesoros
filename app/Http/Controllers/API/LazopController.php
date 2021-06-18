@@ -55,7 +55,7 @@ class LazopController extends Controller
         $request->addApiParam('limit','10');
         $request->addApiParam('options','1');
         $request->addApiParam('sku_seller_list',' [\"39817:01:01\", \"Apple 6S Black\"]');
-        return $c->execute($request, $this->accessToken);
+        return $c->execute($request, '50000901203pOEa1ed0ec4bzhxlmygwTlXbEU5psxHnetiaFzwlF4CSviEEK9USy');
     }
 
     // public function get_seller()
