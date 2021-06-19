@@ -26,3 +26,6 @@ Route::get('/landingpage', function () {
 });
 
 Route::get('ijc', [ijcController::class, 'index']);
+Route::get('ijclocal', [ijcController::class, 'ijclokal']);
+Route::get('ijclocal/edit/{id}', [ijcController::class, 'edit']);
+Route::post('ijclocal/update', [ijcController::class, 'update']);

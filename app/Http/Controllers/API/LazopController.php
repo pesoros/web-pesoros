@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Lazada\LazopClient;
 use Lazada\LazopRequest;
+use App\Models\IjcProducts;
 
 class LazopController extends Controller
 {
@@ -57,6 +58,9 @@ class LazopController extends Controller
         $data = $executelazop['data']['products'];
 
         for ($i=0; $i < count($data); $i++) { 
+            $res['data'][$i]['itemid'] = isset($data[$i]['item_id']) ? $data[$i]['item_id'] : "-";
+            $res['data'][$i]['skuid'] = isset($data[$i]['skus'][0]['SkuId']) ? $data[$i]['skus'][0]['SkuId'] : "-";
+            $res['data'][$i]['sellersku'] = isset($data[$i]['skus'][0]['SellerSku']) ? $data[$i]['skus'][0]['SellerSku'] : "-";
             $res['data'][$i]['name'] = isset($data[$i]['attributes']['name']) ? $data[$i]['attributes']['name'] : "-";
             $res['data'][$i]['model'] = isset($data[$i]['attributes']['model']) ? $data[$i]['attributes']['model'] : "-";
             $res['data'][$i]['brand'] = isset($data[$i]['attributes']['brand']) ? $data[$i]['attributes']['brand'] : "-";
@@ -110,5 +114,31 @@ class LazopController extends Controller
         $executelazop = json_decode($c->execute($request, $this->accessToken), true);
         
         return $executelazop;
+    }
+
+    public function importProducts()
+    {
+        $data = $this->get_product();
+        $data = $data['data'];
+        for ($i=0; $i < count($data); $i++) { 
+            $dataInsert['itemid'] = $data[$i]['itemid'];
+            $dataInsert['skuid'] = $data[$i]['skuid'];
+            $dataInsert['sellersku'] = $data[$i]['sellersku'];
+            $dataInsert['name'] = $data[$i]['name'];
+            $dataInsert['model'] = $data[$i]['model'];
+            $dataInsert['brand'] = $data[$i]['brand'];
+            $dataInsert['url'] = $data[$i]['url'];
+            $dataInsert['qty'] = $data[$i]['quantity'];
+            $dataInsert['status'] = $data[$i]['status'];
+            IjcProducts::create($dataInsert);
+        }
+        return 'success';
+    }
+
+    public function get_product_locally()
+    {
+        $products = IjcProducts::all();
+        $res['data'] = $products;
+        return $res;
     }
 }

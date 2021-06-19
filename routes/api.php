@@ -22,6 +22,8 @@ Route::post('callback', [CallbackController::class, 'store']);
 Route::get('seller', [LazopController::class, 'get_seller']);
 Route::get('products', [LazopController::class, 'get_product']);
 Route::get('transactions', [LazopController::class, 'get_transaction']);
+Route::get('importdata', [LazopController::class, 'importProducts']);
+Route::get('local-products', [LazopController::class, 'get_product_locally']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
