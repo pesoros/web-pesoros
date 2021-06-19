@@ -7,6 +7,8 @@
                 <th>name</th>
                 <th>model</th>
                 <th>brand</th>
+                <th>status</th>
+                <th>qty</th>
                 <th>url</th>
             </tr>
         </thead>
@@ -23,6 +25,8 @@ $(function() {
             { data: 'name' },
             { data: 'model' },
             { data: 'brand' },
+            { data: 'status' },
+            { data: 'quantity' },
             { data: 'url' ,
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                     $(nTd).html("<a href='"+oData.url+"' target='_blank'>Link Web</a>");
