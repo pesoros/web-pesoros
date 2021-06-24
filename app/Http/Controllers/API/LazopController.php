@@ -21,10 +21,22 @@ class LazopController extends Controller
     {
         $datatoken = [
             [
-                "akun" => "indodjainem.group@gmail.com", 
-                "token" => "50000901203pOEa1ed0ec4bzhxlmygwTlXbEU5psxHnetiaFzwlF4CSviEEK9USy" 
-            ]
-         ]; 
+                "akun" => "indodjainem.group@gmail.com",
+                "token" => "50000901203pOEa1ed0ec4bzhxlmygwTlXbEU5psxHnetiaFzwlF4CSviEEK9USy",
+            ],[
+                "akun" => "uptodate5758@gmail.com",
+                "token" => "50000801725iSHjqbTqHWGiQdrzxdnFuLVERs1a037177Hh2BpPhxvVsPKy09N4",
+            ],[
+                "akun" => "termurahabis@gmail.com",
+                "token" => "50000700a12NCV8iBozuqC9c158bdb0ffUlqwiyPcAFcu6lvVckhJIwDQbj4pbWr",
+            ],[
+                "akun" => "onegood08@gmail.com",
+                "token" => "50000701217pOEazhudlQe0ol7dCt190852ee6OSwiGHRG1EwTjFXlptdeYPA6F",
+            ],[
+                "akun" => "nomoruno1@gmail.com",
+                "token" => "50000800f21CMaoqbCYnUlpsg0RkBbFwh140160aepVygmmOLvHTUBibCFPcyXEs",
+            ],
+        ];
           
         $this->accessToken = $datatoken;
         $this->apiGateway = env('LZ_API_GATEWAY');

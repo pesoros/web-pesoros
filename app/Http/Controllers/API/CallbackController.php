@@ -9,10 +9,12 @@ class CallbackController extends Controller
 {
     public function index(Request $request)
     {
+        $query = $request->all();
+        $res['code'] = isset($query['code']) ? $query['code'] : '-';
         return response()->json([
             'success' => true,
             'message' => 'no data saved',
-            'response' => $request
+            'response' => $res
         ], 200);
     }
     public function store(Request $request)
