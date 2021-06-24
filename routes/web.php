@@ -25,7 +25,14 @@ Route::get('/landingpage', function () {
     return view('landingpage');
 });
 
-Route::get('ijc', [ijcController::class, 'index']);
-Route::get('ijclocal', [ijcController::class, 'ijclokal']);
-Route::get('ijclocal/edit/{id}', [ijcController::class, 'edit']);
-Route::post('ijclocal/update', [ijcController::class, 'update']);
+Route::group(['prefix' => 'ijc'], function(){
+    Route::get('/', [ijcController::class, 'index']);
+    Route::get('transaction', [ijcController::class, 'transaction']);
+    Route::get('order', [ijcController::class, 'order']);
+});
+
+Route::group(['prefix' => 'ijclocal'], function(){
+    Route::get('/', [ijcController::class, 'ijclokal']);
+    Route::get('edit/{id}', [ijcController::class, 'edit']);
+    Route::post('update', [ijcController::class, 'update']);
+});

@@ -22,6 +22,7 @@ Route::post('callback', [CallbackController::class, 'store']);
 Route::get('seller', [LazopController::class, 'get_seller']);
 Route::get('products', [LazopController::class, 'get_product']);
 Route::get('transactions', [LazopController::class, 'get_transaction']);
+Route::get('orders', [LazopController::class, 'get_orders']);
 Route::get('importdata', [LazopController::class, 'importProducts']);
 Route::get('local-products', [LazopController::class, 'get_product_locally']);
 

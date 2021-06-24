@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use Lazada\LazopClient;
 use Lazada\LazopRequest;
 use App\Models\IjcProducts;
+use Carbon\Carbon;
 
 class LazopController extends Controller
 {
@@ -18,10 +19,17 @@ class LazopController extends Controller
 
     public function __construct()
     {
-        $this->accessToken = '50000901203pOEa1ed0ec4bzhxlmygwTlXbEU5psxHnetiaFzwlF4CSviEEK9USy';
-        $this->apiGateway = 'https://api.lazada.co.id/rest';
-        $this->apiKey = '101982';
-        $this->apiSecret = 'SXmWsDgxmj6rziM9QyaGhZCPW6c6WVXc';
+        $datatoken = [
+            [
+                "akun" => "indodjainem.group@gmail.com", 
+                "token" => "50000901203pOEa1ed0ec4bzhxlmygwTlXbEU5psxHnetiaFzwlF4CSviEEK9USy" 
+            ]
+         ]; 
+          
+        $this->accessToken = $datatoken;
+        $this->apiGateway = env('LZ_API_GATEWAY');
+        $this->apiKey = env('LZ_API_KEY');
+        $this->apiSecret = env('LZ_API_SECRET');
     }
 
     public function get_seller()
@@ -31,7 +39,7 @@ class LazopController extends Controller
 
         $c = new LazopClient($this->apiGateway, $this->apiKey, $this->apiSecret);
         $request = new LazopRequest($apiName,$method);
-        $executelazop = json_decode($c->execute($request, $this->accessToken), true);
+        $executelazop = json_decode($c->execute($request, $this->accessToken[0]['token']), true);
         
         return $executelazop;
     }
@@ -54,7 +62,7 @@ class LazopController extends Controller
         $request->addApiParam('options','1');
         // $request->addApiParam('sku_seller_list',' [\"39817:01:01\", \"Apple 6S Black\"]');
 
-        $executelazop = json_decode($c->execute($request, $this->accessToken), true);
+        $executelazop = json_decode($c->execute($request, $this->accessToken[0]['token']), true);
         $data = $executelazop['data']['products'];
 
         for ($i=0; $i < count($data); $i++) { 
@@ -92,28 +100,107 @@ class LazopController extends Controller
     //     $request->addApiParam('options','1');
     //     // $request->addApiParam('sku_seller_list',' [\"39817:01:01\", \"Apple 6S Black\"]');
 
-    //     $executelazop = json_decode($c->execute($request, $this->accessToken), true);
+    //     $executelazop = json_decode($c->execute($request, $this->accessToken[0]['token']), true);
         
     //     return $executelazop;
     // }
 
-    public function get_transaction()
+    public function get_transaction(Request $request)
     {
+        $querystring = $request->all();
+        if (isset($querystring['date'])) {
+            $date = $querystring['date'];
+        } else {
+            $date = "2021-01-01";
+        }
+
+        $tokenwehave = $this->accessToken;
+        $arr = [];
         $method = 'GET';
         $apiName = '/finance/transaction/detail/get';
 
-        $c = new LazopClient($this->apiGateway, $this->apiKey, $this->apiSecret);
-        $request = new LazopRequest($apiName,$method);
+        foreach ($tokenwehave as $key => $value) {
+            $c = new LazopClient($this->apiGateway, $this->apiKey, $this->apiSecret);
+            $request = new LazopRequest($apiName,$method);
+            $request->addApiParam('trans_type','-1');
+            $request->addApiParam('start_time',$date);
+            $request->addApiParam('end_time',$date);
+            $request->addApiParam('limit','500');
+            $request->addApiParam('offset','0');
+            $executelazop = json_decode($c->execute($request, $value['token']), true);
 
-        $request->addApiParam('trans_type','-1');
-        $request->addApiParam('start_time','2020-06-01');
-        $request->addApiParam('end_time','2020-06-30');
-        $request->addApiParam('limit','10');
-        $request->addApiParam('offset','0');
+            if (isset($executelazop['data'])) {
 
-        $executelazop = json_decode($c->execute($request, $this->accessToken), true);
+                $data = $executelazop['data'];
+            
+                for ($i=0; $i < count($data); $i++) { 
+                    if ($data[$i]['fee_name'] != "Payment Fee") {
+                        $data[$i]['nama_akun'] = $value['akun'];
+                        array_push($arr,$data[$i]);
+                    }
+                }
+    
+                $res['jumlah_data'] = count($arr);
+                $res['data'] = $arr;
+            } else {
+                $res = $executelazop;
+            }
+        }
         
-        return $executelazop;
+        return $res;
+    }
+    
+    public function get_orders(Request $request)
+    {
+        $querystring = $request->all();
+        if (isset($querystring['date'])) {
+            $datestart = Carbon::createFromFormat('Y-m-d', $querystring['date']);
+            $daysToAdd = 1;
+            $dateend = $datestart->addDays($daysToAdd)->format('Y-m-d').'T01:00:00+08:00';
+            $datestart = $querystring['date'].'T00:00:00+08:00';
+        } else {
+            $datestart = "2021-01-01T01:00:00+08:00";
+            $dateend = "2021-01-02T00:00:00+08:00";
+        }
+        
+        $tokenwehave = $this->accessToken;
+        $arr = [];
+        $method = 'GET';
+        $apiName = '/orders/get';
+        
+        foreach ($tokenwehave as $key => $value) {
+            $c = new LazopClient($this->apiGateway, $this->apiKey, $this->apiSecret);
+            $request = new LazopRequest($apiName,$method);
+            // $request->addApiParam('update_before','2018-02-10T16:00:00+08:00');
+            $request->addApiParam('sort_direction','DESC');
+            $request->addApiParam('offset','0');
+            $request->addApiParam('limit','10');
+            // $request->addApiParam('update_after','2017-02-10T09:00:00+08:00');
+            $request->addApiParam('sort_by','created_at');
+            $request->addApiParam('created_before', $dateend);
+            $request->addApiParam('created_after', $datestart);
+            // $request->addApiParam('status','shipped');
+            $executelazop = json_decode($c->execute($request, $value['token']), true);
+
+            if (isset($executelazop['data']['orders'])) {
+
+                $data = $executelazop['data']['orders'];
+            
+                for ($i=0; $i < count($data); $i++) { 
+                    $data[$i]['nama_akun'] = $value['akun'];
+                    array_push($arr,$data[$i]);
+                }
+    
+                $res['date_start'] = $datestart;
+                $res['date_end'] = $dateend;
+                $res['jumlah_data'] = count($arr);
+                $res['data'] = $arr;
+            } else {
+                $res = $executelazop;
+            }
+        }
+
+        return $res;
     }
 
     public function importProducts()

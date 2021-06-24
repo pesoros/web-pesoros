@@ -18,10 +18,10 @@ class ijcController extends Controller
 
     public function __construct()
     {
-        $this->accessToken = '50000901203pOEa1ed0ec4bzhxlmygwTlXbEU5psxHnetiaFzwlF4CSviEEK9USy';
-        $this->apiGateway = 'https://api.lazada.co.id/rest';
-        $this->apiKey = '101982';
-        $this->apiSecret = 'SXmWsDgxmj6rziM9QyaGhZCPW6c6WVXc';
+        $this->accessToken = ['50000901203pOEa1ed0ec4bzhxlmygwTlXbEU5psxHnetiaFzwlF4CSviEEK9USy'];
+        $this->apiGateway = env('LZ_API_GATEWAY');
+        $this->apiKey = env('LZ_API_KEY');
+        $this->apiSecret = env('LZ_API_SECRET');
     }
 
     public function index(){
@@ -30,6 +30,16 @@ class ijcController extends Controller
 
     public function ijclokal(){
         return view('ijc/index_local');
+    }
+    
+    public function transaction()
+    {
+        return view('ijc/transaction');
+    }
+
+    public function order()
+    {
+        return view('ijc/order');
     }
 
     public function edit($id)
@@ -78,7 +88,7 @@ class ijcController extends Controller
                 </Product>
             </Request>
         ');
-        $executelazop = json_decode($c->execute($request, $this->accessToken), true);
+        $executelazop = json_decode($c->execute($request, $this->accessToken[0]), true);
         
         return $executelazop;
     }
