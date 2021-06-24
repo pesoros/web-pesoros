@@ -22,7 +22,7 @@ class LazopController extends Controller
         $datatoken = [
             [
                 "akun" => "indodjainem.group@gmail.com",
-                "token" => "50000901203pOEa1ed0ec4bzhxlmygwTlXbEU5psxHnetiaFzwlF4CSviEEK9USy",
+                "token" => "50000900532VMEcqMhzBqGsavqZCdhydlUhsOeBDjtfN1c095e14zxGmlE6KxZYC",
             ],[
                 "akun" => "uptodate5758@gmail.com",
                 "token" => "50000801725iSHjqbTqHWGiQdrzxdnFuLVERs1a037177Hh2BpPhxvVsPKy09N4",
@@ -209,6 +209,7 @@ class LazopController extends Controller
                 $res['data'] = $arr;
             } else {
                 $res = $executelazop;
+                $res['akun'] = $value['akun'];
             }
         }
 
